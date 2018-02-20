@@ -13,6 +13,7 @@ var open = [];
 var moves = 0;
 var matched = 0;
 var starCount = 3;
+var modal = document.querySelector('.modal');
 
 
 /*
@@ -88,8 +89,10 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     				setTimeout(match, 600);
     				matched++;
     				//win game function
-    				if ( matched === 8 ){
-    					setTimeout(resetGame, 1000);
+    				if ( matched === 1 ){
+    					modal.style.display = "block";
+    					document.querySelector('P').textContent="With "+moves+" Moves and "+starCount+" stars.";
+    					
     				}
     			}else{
     				setTimeout(resetOpenCard, 600);
@@ -142,9 +145,16 @@ function resetGame(){
 	makeDeck();
 
 }
-//event listener for restart button
+//event listener for restart button game page
 document.querySelector('.restart').addEventListener('click', function () {
-  resetGame();
+  	resetGame();
+});
+
+//event for restart button on modal
+//event listener for restart button
+document.querySelector('.restartBtn').addEventListener('click', function () {
+	modal.style.display = "none";
+  	resetGame();
 });
 
 function starcheck(){
@@ -161,5 +171,19 @@ function starcheck(){
 	}
 	
 }
+
+//Jquery for checkmark
+$(document).ready(function () {
+        setTimeout(function () {
+            $(".check").attr("class", "check check-complete");
+            $(".fill").attr("class", "fill fill-complete");
+        }, 1000);
+
+        setTimeout(function () {
+            $(".check").attr("class", "check check-complete success");
+            $(".fill").attr("class", "fill fill-complete success");
+            $(".path").attr("class", "path path-complete");
+        }, 2000);
+    });
 
 makeDeck();
