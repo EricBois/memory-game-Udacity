@@ -9,7 +9,7 @@ deck = ["fa fa-diamond","fa fa-diamond",
 		"fa fa-bomb","fa fa-bomb"
 		];
 
-var open = [];
+var open =[];
 
 
 /*
@@ -79,7 +79,9 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     		}else if(open.length ===1){
     			openCard(evt.target);
     			if (matchCheck()) {
-    				console.log("match")
+    				setTimeout(match, 600);
+    			}else{
+    				setTimeout(resetOpenCard, 600);
     			}
     		}
     	}
@@ -92,16 +94,27 @@ function isNotOpen(card) {
 };
 
 function openCard(card){
-	card.className +=" open show"
+	card.className +=" open show";
 	open.push(card);
 }
 
 function matchCheck() {
     if (open[0].firstChild.className === open[1].firstChild.className) {
-        return true;
+    	return true;
     }
 };
 
+function resetOpenCard(){
+	open.forEach(function(card){
+		card.className ="card";
+	});
+	open =[];
+}
 
+function match(){
+	open.forEach(function(card){
+		card.className += " match"});
+	open =[];
+}
 
 makeDeck();
