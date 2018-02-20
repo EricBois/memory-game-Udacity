@@ -9,6 +9,9 @@ deck = ["fa fa-diamond","fa fa-diamond",
 		"fa fa-bomb","fa fa-bomb"
 		];
 
+var open = [];
+
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -61,15 +64,44 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+//check state of class ( open or matched already )
+function classLookup(el, cls) {
+  return el.className && new RegExp("(\\s|^)" + cls + "(\\s|$)").test(el.className);
+}
+
+
 document.querySelector('.deck').addEventListener('click', function (evt) {
     if (evt.target.nodeName === 'LI') {  // ← verifies target is desired element
-    	displayCard(evt.target)
+    	if (isNotOpen(evt.target)){
+    		if (open.length === 0){
+    			openCard(evt.target);
+    		}else if(open.length ===1){
+    			openCard(evt.target);
+    			if (matchCheck()) {
+    				console.log("match")
+    			}
+    		}
+    	}
+    	
     }
 });
 
-function displayCard(card){
-	card.className += " open show"
+function isNotOpen(card) {
+    return !(classLookup(card,"open") || classLookup(card,"match"));
+};
+
+function openCard(card){
+	card.className +=" open show"
+	open.push(card);
 }
+
+function matchCheck() {
+    if (open[0].firstChild.className === open[1].firstChild.className) {
+        return true;
+    }
+};
+
 
 
 makeDeck();
