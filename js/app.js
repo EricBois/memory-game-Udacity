@@ -9,9 +9,10 @@ deck = ["fa fa-diamond","fa fa-diamond",
 		"fa fa-bomb","fa fa-bomb"
 		];
 
-var open =[];
+var open = [];
 var moves = 0;
-
+var matched = 0;
+var starCount = 3;
 
 
 /*
@@ -82,9 +83,14 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     		}else if(open.length ===1){
     			openCard(evt.target);
     			moves++;
-    			updateMoves()
+    			updateMoves();
     			if (matchCheck()) {
     				setTimeout(match, 600);
+    				matched++;
+    				//win game function
+    				if ( matched === 8 ){
+    					setTimeout(resetGame, 1000);
+    				}
     			}else{
     				setTimeout(resetOpenCard, 600);
     			}
@@ -123,10 +129,37 @@ function match(){
 }
 
 function updateMoves(){
-	//const counter = document.querySelector('.moves')
-	//const myMoves = document.createTextNode(moves);
-	//counter.appendChild(myMoves)
 	document.querySelector('.moves').textContent=moves;
+	starcheck();
+}
+
+function resetGame(){
+	open =[];
+	moves=0;
+	matched=0;
+	stars=3;
+	updateMoves();
+	makeDeck();
+
+}
+//event listener for restart button
+document.querySelector('.restart').addEventListener('click', function () {
+  resetGame();
+});
+
+function starcheck(){
+	const stars = document.querySelectorAll('.fa-star');
+	if (moves === 15){
+		stars[2].className ="fa fa-star-o";
+		starCount = 2;
+	}else if (moves === 20){
+		stars[1].className ="fa fa-star-o";
+		starCount = 1;
+	}else if (moves === 26){
+		stars[0].className ="fa fa-star-o";
+		starCount = 0;
+	}
+	
 }
 
 makeDeck();
