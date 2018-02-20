@@ -10,6 +10,8 @@ deck = ["fa fa-diamond","fa fa-diamond",
 		];
 
 var open =[];
+var moves = 0;
+
 
 
 /*
@@ -20,7 +22,8 @@ var open =[];
  */
  function makeDeck() {
  	//select location 
- 	const gridLocation = document.querySelector(".deck")
+ 	const gridLocation = document.querySelector(".deck");
+ 	updateMoves();
  	//create empty deck
  	gridLocation.innerHTML='';
  	//shuffle deck
@@ -78,6 +81,8 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     			openCard(evt.target);
     		}else if(open.length ===1){
     			openCard(evt.target);
+    			moves++;
+    			updateMoves()
     			if (matchCheck()) {
     				setTimeout(match, 600);
     			}else{
@@ -115,6 +120,13 @@ function match(){
 	open.forEach(function(card){
 		card.className += " match"});
 	open =[];
+}
+
+function updateMoves(){
+	//const counter = document.querySelector('.moves')
+	//const myMoves = document.createTextNode(moves);
+	//counter.appendChild(myMoves)
+	document.querySelector('.moves').textContent=moves;
 }
 
 makeDeck();
