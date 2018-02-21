@@ -9,11 +9,12 @@ deck = ["fa fa-diamond","fa fa-diamond",
 		"fa fa-bomb","fa fa-bomb"
 		];
 
-var open = [];
-var moves = 0;
-var matched = 0;
-var starCount = 3;
-var modal = document.querySelector('.modal');
+var open = []; // temporary open cards
+var moves = 0; // # of total move
+var matched = 0; // matched pairs of cards
+var starCount = 3; // start count
+var modal = document.querySelector('.modal'); // location of modal
+var timer = new Timer(); // Timer
 
 
 /*
@@ -59,22 +60,10 @@ function shuffle(array) {
     return array;
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
 //check state of class ( open or matched already )
 function classLookup(el, cls) {
   return el.className && new RegExp("(\\s|^)" + cls + "(\\s|$)").test(el.className);
 }
-
 
 document.querySelector('.deck').addEventListener('click', function (evt) {
     if (evt.target.nodeName === 'LI') {  // ← verifies target is desired element
@@ -89,10 +78,11 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     				setTimeout(match, 600);
     				matched++;
     				//win game function
-    				if ( matched === 1 ){
+    				if ( matched === 8 ){
+    					timer.pause();
     					modal.style.display = "block";
+    					document.querySelector('.timerFinish').textContent="You did it in "+timer.getTimeValues().toString()+"s, amazing!";
     					document.querySelector('P').textContent="With "+moves+" Moves and "+starCount+" stars.";
-    					
     				}
     			}else{
     				setTimeout(resetOpenCard, 600);
@@ -140,17 +130,23 @@ function resetGame(){
 	open =[];
 	moves=0;
 	matched=0;
-	stars=3;
+	starCount=3;
+	const stars = document.querySelectorAll('.fa-star-o');
+	for (x=0; x<stars.length; x++){
+		if (stars[x].className === "fa fa-star-o"){
+			stars[x].className = "fa fa-star"
+		}
+	}
 	updateMoves();
 	makeDeck();
-
+	timer.reset();
 }
+
 //event listener for restart button game page
 document.querySelector('.restart').addEventListener('click', function () {
   	resetGame();
 });
 
-//event for restart button on modal
 //event listener for restart button
 document.querySelector('.restartBtn').addEventListener('click', function () {
 	modal.style.display = "none";
@@ -172,6 +168,11 @@ function starcheck(){
 	
 }
 
+//timer updater
+timer.addEventListener('secondsUpdated', function (e) {
+    $('#time').html(timer.getTimeValues().toString());
+});
+
 //Jquery for checkmark
 $(document).ready(function () {
         setTimeout(function () {
@@ -187,3 +188,4 @@ $(document).ready(function () {
     });
 
 makeDeck();
+timer.start();

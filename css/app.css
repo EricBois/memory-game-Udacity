@@ -143,6 +143,10 @@ h1 {
     background-color: #00cc00; /* Green */
     color: white;
 }
+
+.timer {
+    text-align: center;
+}
 /* Loading checkmark */
 
 .checkmark {
