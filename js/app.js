@@ -67,21 +67,21 @@ function classLookup(el, cls) {
 
 document.querySelector('.deck').addEventListener('click', function (evt) {
     if (evt.target.nodeName === 'LI') {  // ← verifies target is desired element
-    	if (isNotOpen(evt.target)){
-    		if (open.length === 0){
+    	if (isNotOpen(evt.target)){ //make sure card isn't open already
+    		if (open.length === 0){ // make sure only 2 card can be open at a time
     			openCard(evt.target);
     		}else if(open.length ===1){
     			openCard(evt.target);
     			moves++;
     			updateMoves();
-    			if (matchCheck()) {
+    			if (matchCheck()) { // check if cards match
     				setTimeout(match, 600);
     				matched++;
     				//win game function
-    				if ( matched === 8 ){
+    				if ( matched === 8 ){ // if all cards are matched, open modal 
     					timer.pause();
     					modal.style.display = "block";
-    					document.querySelector('.timerFinish').textContent="You did it in "+timer.getTimeValues().toString()+"s, amazing!";
+    					document.querySelector('.timerFinish').textContent="You did it in "+timer.getTimeValues().toString()+"s";
     					document.querySelector('P').textContent="With "+moves+" Moves and "+starCount+" stars.";
     				}
     			}else{
@@ -93,21 +93,25 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
     }
 });
 
+//check if card is already open
 function isNotOpen(card) {
     return !(classLookup(card,"open") || classLookup(card,"match"));
-};
+}
 
+//open card
 function openCard(card){
 	card.className +=" open show";
 	open.push(card);
 }
 
+//check for matching cards
 function matchCheck() {
     if (open[0].firstChild.className === open[1].firstChild.className) {
     	return true;
     }
-};
+}
 
+//close opened card
 function resetOpenCard(){
 	open.forEach(function(card){
 		card.className ="card";
@@ -115,23 +119,26 @@ function resetOpenCard(){
 	open =[];
 }
 
+//add match class to matching cards
 function match(){
 	open.forEach(function(card){
 		card.className += " match"});
 	open =[];
 }
 
+//update moves on page & check stars
 function updateMoves(){
 	document.querySelector('.moves').textContent=moves;
 	starcheck();
 }
 
+//Restart the game 
 function resetGame(){
 	open =[];
 	moves=0;
 	matched=0;
 	starCount=3;
-	const stars = document.querySelectorAll('.fa-star-o');
+	const stars = document.querySelectorAll('.fa-star-o'); // check for empty stars and reload them
 	for (x=0; x<stars.length; x++){
 		if (stars[x].className === "fa fa-star-o"){
 			stars[x].className = "fa fa-star"
@@ -153,6 +160,7 @@ document.querySelector('.restartBtn').addEventListener('click', function () {
   	resetGame();
 });
 
+//change stars state
 function starcheck(){
 	const stars = document.querySelectorAll('.fa-star');
 	if (moves === 15){
@@ -173,7 +181,7 @@ timer.addEventListener('secondsUpdated', function (e) {
     $('#time').html(timer.getTimeValues().toString());
 });
 
-//Jquery for checkmark
+//Jquery for checkmark in modal
 $(document).ready(function () {
         setTimeout(function () {
             $(".check").attr("class", "check check-complete");
