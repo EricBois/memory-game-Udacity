@@ -1,20 +1,22 @@
 # Memory Game Project
 
-## Table of Contents
+## Project
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+Udacity test project from frontend nanodegree.
 
-## Instructions
+## Game rules
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Find cards (icons) that match, as fast as possible ( timer ) and win the game with as many stars left as possible ( less moves ).
 
-To get started, open `js/app.js` and start building out the app's functionality
+1. stars ( 3 total )
+	
+	15 moves = - 1 star
+	20 moves = - 1 star
+	26 moves = - 1 star
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+## Code dependencies
 
-## Contributing
+1. Jquery ( https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js )
+2. Easytimer.js ( https://albert-gonzalez.github.io/easytimer.js/ )
+3. Bounce.js ( for css animation  ( http://bouncejs.com/ )
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
